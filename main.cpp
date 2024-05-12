@@ -1,4 +1,5 @@
 #include <iostream>
+#include "ctime"
 
 bool isLeap(int year) {
     if (year % 4 == 0) {
@@ -9,42 +10,48 @@ bool isLeap(int year) {
     }
     return false;
 }
-
-// Задача 1
-// Оголошено функцію (isLeap) (наведено у зразку). Функція визначає, чи є введений користувачем рік високосним, чи ні.
-// Функція приймає один аргумент (рік) типу int та повертати значення типу bool. Необхідно описати функцію
-// (тіло функції) таким чином, щоб функція повертала у програму значення true, якщо введений рік високосний,
-// або false, якщо введено не високосний рік.
-void problem1() {
-    int year;
-    std::cout << "Enter year: ";
-    std::cin >> year;
-    std::cout << (isLeap(year) ? "Leap year" : "Not leap year") << std::endl;
-}
-
 int monthLength(int year, int month) {
     int days[] = {31, isLeap(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     return days[month - 1];
 }
 
-// Задача 2
-// Написати функцію (ім’я функції monthLength), яка повертатиме довжину кожного місяця в днях, яка прийматиме два
-// аргументи – номер року (int) і номер місяця (int)  та повертатиме значення кількість днів у місяці (int).
-// Зверніть увагу, що рік важливий, коли ми розглядаємо місяць лютий, оскільки лише в цьому місяці кількість днів
-// залежить від високосного року (для визначення високосного року скористайтесь функцією із попередньої задачі).
-// Для розв’язання задачі можна використати один із двох способів на вибір:
-// -	Switch;
-// -	Оголосити вектор (одновимірний масив) для зберігання довжини місяців.
-void problem2() {
-    int year, month;
-    std::cout << "Enter year: ";
-    std::cin >> year;
-    std::cout << "Enter month: ";
-    std::cin >> month;
-    std::cout << "Month length: " << monthLength(year, month) << std::endl;
+struct Date {
+    int year;
+    int month;
+    int day;
+};
+
+Date today() {
+    time_t t = time(0);
+    tm *now = localtime(&t);
+    Date date;
+    date.year = now->tm_year + 1900;
+    date.month = now->tm_mon + 1;
+    date.day = now->tm_mday;
+    return date;
 }
 
+// Знайдіть кількість днів, що пройшли від вашого дня народження до поточної дати.
 int main() {
-    problem2();
+    Date birthDate;
+    std::cout << "Enter your birth date (year month day): ";
+    std::cin >> birthDate.year >> birthDate.month >> birthDate.day;
+
+    Date currentDate = today();
+    int days = 0;
+    for (int year = birthDate.year; year <= currentDate.year; year++) {
+        int startMonth = year == birthDate.year ? birthDate.month : 1;
+        int endMonth = year == currentDate.year ? currentDate.month : 12;
+
+        for (int month = startMonth; month <= endMonth; month++) {
+            int startDay = year == birthDate.year && month == birthDate.month ? birthDate.day : 1;
+            int endDay = year == currentDate.year && month == currentDate.month ? currentDate.day : monthLength(year, month);
+            for (int day = startDay; day <= endDay; day++) {
+                days++;
+            }
+        }
+    }
+    std::cout << "Days since your birth: " << days << std::endl;
+
     return 0;
 }
