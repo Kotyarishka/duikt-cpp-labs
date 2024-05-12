@@ -1,27 +1,25 @@
 #include <iostream>
 
-// Функція повинна мати назву isPrime, приймати один аргумент типу int (тобто число, яке хочемо перевірити) та
-// повертати true, якщо аргумент є простим числом, або false в іншому випадку.
-bool isPrime(int n) {
-    if (n < 2) {
-        return false;
-    }
-    for (int i = 2; i * i <= n; i++) {
-        if (n % i == 0) {
-            return false;
-        }
-    }
-    return true;
+void increment(int &x) {
+    x++;
+}
+
+void increment(int &x, int amount) {
+    x += amount;
 }
 
 int main() {
-    for (int i = 0; i <= 21; i++) {
-        if (isPrime(i)) {
-            std::cout << i << " ";
+    int var = 0;
+
+    for (int i = 0; i < 10; i++) {
+        if (i % 2) {
+            increment(var);
+        } else {
+            increment(var, i);
         }
     }
 
-    std::cout << std::endl;
+    std::cout << var << std::endl;
 
     return 0;
 }
