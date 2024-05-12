@@ -1,85 +1,47 @@
 #include <iostream>
 
-// Завдання 1.
-// Ознайомтесь з поняттям динамічної пам’яті, операторами new i delete.
-// Задати одновимірний динамічний масив (кількість елементів виберіть на
-// власний розсуд). Заповнити масив випадковими значеннями з плаваючою
-// крапкою з діапазону (-2, 2). Знайти кількість додатних та від'ємних чисел.
-void problem1() {
-    int n;
-    std::cout << "Enter the size of the array: ";
-    std::cin >> n;
-
-    float* arr = new float[n];
-    for (int i = 0; i < n; i++) {
-        arr[i] = -2 + static_cast<float>(rand()) / RAND_MAX * 4;
-    }
-
-    int positive = 0;
-    int negative = 0;
-    for (int i = 0; i < n; i++) {
-        if (arr[i] > 0) {
-            positive++;
-        } else if (arr[i] < 0) {
-            negative++;
+bool isLeap(int year) {
+    if (year % 4 == 0) {
+        if (year % 100 == 0) {
+            return year % 400 == 0;
         }
+        return true;
     }
-
-    std::cout << "Positive: " << positive << std::endl;
-    std::cout << "Negative: " << negative << std::endl;
-
-    delete[] arr;
+    return false;
 }
 
-// Завдання 2.
-// Задайте двовимірний динамічний масив цілих чисел розмірністю 3х3 (кількість
-// елементів виберіть на власний розсуд). Заповнити його випадковими
-// значеннями. Виведіть на екран, елементи, що знаходяться на головній діагоналі,
-// побічній діагоналі, кількість парних та непарних елементів масиву.
+// Задача 1
+// Оголошено функцію (isLeap) (наведено у зразку). Функція визначає, чи є введений користувачем рік високосним, чи ні.
+// Функція приймає один аргумент (рік) типу int та повертати значення типу bool. Необхідно описати функцію
+// (тіло функції) таким чином, щоб функція повертала у програму значення true, якщо введений рік високосний,
+// або false, якщо введено не високосний рік.
+void problem1() {
+    int year;
+    std::cout << "Enter year: ";
+    std::cin >> year;
+    std::cout << (isLeap(year) ? "Leap year" : "Not leap year") << std::endl;
+}
+
+int monthLength(int year, int month) {
+    int days[] = {31, isLeap(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    return days[month - 1];
+}
+
+// Задача 2
+// Написати функцію (ім’я функції monthLength), яка повертатиме довжину кожного місяця в днях, яка прийматиме два
+// аргументи – номер року (int) і номер місяця (int)  та повертатиме значення кількість днів у місяці (int).
+// Зверніть увагу, що рік важливий, коли ми розглядаємо місяць лютий, оскільки лише в цьому місяці кількість днів
+// залежить від високосного року (для визначення високосного року скористайтесь функцією із попередньої задачі).
+// Для розв’язання задачі можна використати один із двох способів на вибір:
+// -	Switch;
+// -	Оголосити вектор (одновимірний масив) для зберігання довжини місяців.
 void problem2() {
-    int n = 3;
-    int** arr = new int*[n];
-    for (int i = 0; i < n; i++) {
-        arr[i] = new int[n];
-    }
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            arr[i][j] = rand() % 10;
-        }
-    }
-
-    std::cout << "Main diagonal: ";
-    for (int i = 0; i < n; i++) {
-        std::cout << arr[i][i] << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "Side diagonal: ";
-    for (int i = 0; i < n; i++) {
-        std::cout << arr[i][n - i - 1] << " ";
-    }
-    std::cout << std::endl;
-
-    int even = 0;
-    int odd = 0;
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            if (arr[i][j] % 2 == 0) {
-                even++;
-            } else {
-                odd++;
-            }
-        }
-    }
-
-    std::cout << "Even: " << even << std::endl;
-    std::cout << "Odd: " << odd << std::endl;
-
-    for (int i = 0; i < n; i++) {
-        delete[] arr[i];
-    }
-    delete[] arr;
+    int year, month;
+    std::cout << "Enter year: ";
+    std::cin >> year;
+    std::cout << "Enter month: ";
+    std::cin >> month;
+    std::cout << "Month length: " << monthLength(year, month) << std::endl;
 }
 
 int main() {
