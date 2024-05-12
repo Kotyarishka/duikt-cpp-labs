@@ -1,49 +1,85 @@
 #include <iostream>
 
 // Завдання 1.
-// Оголошено одновимірний масив (vector) (наведено у зразку). Необхідно знайти найменший елемент масиву не
-// використовуючи індексацію. Можна використовувати скільки завгодно вказівників.
+// Ознайомтесь з поняттям динамічної пам’яті, операторами new i delete.
+// Задати одновимірний динамічний масив (кількість елементів виберіть на
+// власний розсуд). Заповнити масив випадковими значеннями з плаваючою
+// крапкою з діапазону (-2, 2). Знайти кількість додатних та від'ємних чисел.
 void problem1() {
-    int vector[] = {3, -5, 7, 10, -4, 14, 5, 2, -13};
+    int n;
+    std::cout << "Enter the size of the array: ";
+    std::cin >> n;
 
-    int n = sizeof(vector) / sizeof(vector[0]);
-
-    int *ptr = vector;
-    int min = *ptr;
-
+    float* arr = new float[n];
     for (int i = 0; i < n; i++) {
-        if (*ptr < min) {
-            min = *ptr;
-        }
-        ptr++;
+        arr[i] = -2 + static_cast<float>(rand()) / RAND_MAX * 4;
     }
 
-    std::cout << "Min element: " << min << std::endl;
+    int positive = 0;
+    int negative = 0;
+    for (int i = 0; i < n; i++) {
+        if (arr[i] > 0) {
+            positive++;
+        } else if (arr[i] < 0) {
+            negative++;
+        }
+    }
+
+    std::cout << "Positive: " << positive << std::endl;
+    std::cout << "Negative: " << negative << std::endl;
+
+    delete[] arr;
 }
 
 // Завдання 2.
-// Оголошено двовимірний масив (matrix) (наведено у зразку). Масив виводить матрицю, розмірністю 10 на 10, що заповнена
-// за замовчуванням нулями. Необхідно заповнити масив значеннями, які перетворять її в таблицю множення
-// (приклад виведення наведено в зразку). Для цього ми не можемо використовувати індексацію. Дозволено використання лише вказівників
-
+// Задайте двовимірний динамічний масив цілих чисел розмірністю 3х3 (кількість
+// елементів виберіть на власний розсуд). Заповнити його випадковими
+// значеннями. Виведіть на екран, елементи, що знаходяться на головній діагоналі,
+// побічній діагоналі, кількість парних та непарних елементів масиву.
 void problem2() {
-    int matrix[10][10] = {0};
+    int n = 3;
+    int** arr = new int*[n];
+    for (int i = 0; i < n; i++) {
+        arr[i] = new int[n];
+    }
 
-    int *ptr = &matrix[0][0];
-
-    for (int i = 1; i <= 10; ++i) {
-        for (int j = 1; j <= 10; ++j) {
-            *ptr = i * j;
-            ++ptr;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            arr[i][j] = rand() % 10;
         }
     }
 
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
-            std::cout << matrix[i][j] << "\t";
-        }
-        std::cout << std::endl;
+    std::cout << "Main diagonal: ";
+    for (int i = 0; i < n; i++) {
+        std::cout << arr[i][i] << " ";
     }
+    std::cout << std::endl;
+
+    std::cout << "Side diagonal: ";
+    for (int i = 0; i < n; i++) {
+        std::cout << arr[i][n - i - 1] << " ";
+    }
+    std::cout << std::endl;
+
+    int even = 0;
+    int odd = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (arr[i][j] % 2 == 0) {
+                even++;
+            } else {
+                odd++;
+            }
+        }
+    }
+
+    std::cout << "Even: " << even << std::endl;
+    std::cout << "Odd: " << odd << std::endl;
+
+    for (int i = 0; i < n; i++) {
+        delete[] arr[i];
+    }
+    delete[] arr;
 }
 
 int main() {
