@@ -8,6 +8,7 @@ class Square
 private:
     double side;
     double area;
+    bool wasChanged;
     // Your code here
 
 public:
@@ -15,11 +16,13 @@ public:
     {
         this -> side = side;
         this -> area = side * side;
+
+        this -> wasChanged = false;
     };
 
     void print()
     {
-        cout << "Square: side=" << this->side << " area=" << this->area << endl;
+        cout << "Square: side=" << this->side << ", area=" << this->area <<  ", was changed=" << this -> wasChanged << endl;
     }
 
     void setSide(double side)
@@ -31,6 +34,7 @@ public:
 
         this->side = side;
         this->area = side * side;
+        this->wasChanged = true;
     };
     double getSide()
     {
@@ -40,6 +44,11 @@ public:
     double getArea()
     {
         return this->area;
+    }
+
+    bool getWasChanged()
+    {
+        return this->wasChanged;
     }
 };
 
