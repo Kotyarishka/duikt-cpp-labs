@@ -1,52 +1,82 @@
 #include <iostream>
+using namespace std;
 
-// Завдання 1.
-// Оголошено одновимірний масив (vector) (наведено у зразку). Необхідно знайти найменший елемент масиву не
-// використовуючи індексацію. Можна використовувати скільки завгодно вказівників.
-void problem1() {
-    int vector[] = {3, -5, 7, 10, -4, 14, 5, 2, -13};
+int main()
+{
+    cout << "Enter password: ";
+    string password;
+    getline(cin, password);
 
-    int n = sizeof(vector) / sizeof(vector[0]);
+    // password must be
+    // 1. be 8 characters long
+    // 2. have at least one uppercase letter
+    // 3. have at least one lowercase letter
+    // 4. have at least one digit
+    // 5. have at least one special character
 
-    int *ptr = vector;
-    int min = *ptr;
-
-    for (int i = 0; i < n; i++) {
-        if (*ptr < min) {
-            min = *ptr;
-        }
-        ptr++;
+    bool validPassword = true;
+    if (password.length() != 8)
+    {
+        validPassword = false;
+        cout << "Password must be 8 characters long" << endl;
     }
 
-    std::cout << "Min element: " << min << std::endl;
-}
+    bool hasUpperCase = false;
+    bool hasLowerCase = false;
+    bool hasDigit = false;
+    bool hasSpecialCharacter = false;
 
-// Завдання 2.
-// Оголошено двовимірний масив (matrix) (наведено у зразку). Масив виводить матрицю, розмірністю 10 на 10, що заповнена
-// за замовчуванням нулями. Необхідно заповнити масив значеннями, які перетворять її в таблицю множення
-// (приклад виведення наведено в зразку). Для цього ми не можемо використовувати індексацію. Дозволено використання лише вказівників
-
-void problem2() {
-    int matrix[10][10] = {0};
-
-    int *ptr = &matrix[0][0];
-
-    for (int i = 1; i <= 10; ++i) {
-        for (int j = 1; j <= 10; ++j) {
-            *ptr = i * j;
-            ++ptr;
+    for (int i = 0; i < password.length(); i++)
+    {
+        if (password[i] >= 'A' && password[i] <= 'Z')
+        {
+            hasUpperCase = true;
+        }
+        else if (password[i] >= 'a' && password[i] <= 'z')
+        {
+            hasLowerCase = true;
+        }
+        else if (password[i] >= '0' && password[i] <= '9')
+        {
+            hasDigit = true;
+        }
+        else
+        {
+            hasSpecialCharacter = true;
         }
     }
 
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
-            std::cout << matrix[i][j] << "\t";
-        }
-        std::cout << std::endl;
+    if (!hasUpperCase)
+    {
+        validPassword = false;
+        cout << "Password must have at least one uppercase letter" << endl;
     }
-}
+    if (!hasLowerCase)
+    {
+        validPassword = false;
+        cout << "Password must have at least one lowercase letter" << endl;
+    }
+    if (!hasDigit)
+    {
+        validPassword = false;
+        cout << "Password must have at least one digit" << endl;
+    }
+    if (!hasSpecialCharacter)
+    {
+        validPassword = false;
+        cout << "Password must have at least one special character" << endl;
+    }
 
-int main() {
-    problem2();
-    return 0;
+    if (validPassword)
+    {
+        cout << "Password is valid" << endl;
+
+        return 0;
+    } else
+    {
+        cout << "Password is invalid" << endl;
+        cout << "Please try again" << endl;
+
+        return 1;
+    }
 }
