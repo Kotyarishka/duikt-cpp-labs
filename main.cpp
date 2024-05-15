@@ -17,8 +17,18 @@ public:
         this -> area = side * side;
     };
 
+    void print()
+    {
+        cout << "Square: side=" << this->side << " area=" << this->area << endl;
+    }
+
     void setSide(double side)
     {
+        if (side < 0)
+        {
+            side = 0;
+        }
+
         this->side = side;
         this->area = side * side;
     };
@@ -33,17 +43,13 @@ public:
     }
 };
 
-void print(Square* square)
-{
-    cout << "Square: side=" << square->getSide() << " area=" << square->getArea() << endl;
-}
 int main()
 {
     Square s(4);
-    print(&s);
+    s.print();
     s.setSide(2);
-    print(&s);
+    s.print();
     s.setSide(-33.0);
-    print(&s);
+    s.print();
     return 0;
 }
