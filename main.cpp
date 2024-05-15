@@ -1,82 +1,32 @@
 #include <iostream>
+#include <string>
+
 using namespace std;
+
+class Person
+{
+public:
+    string name;
+    int age;
+};
+
+void print(Person* p)
+{
+    cout << p->name << " is " << p->age << " years old." << endl;
+}
 
 int main()
 {
-    cout << "Enter password: ";
-    string password;
-    getline(cin, password);
+    Person p1;
+    p1.name = "Alice";
+    p1.age = 30;
 
-    // password must be
-    // 1. be 8 characters long
-    // 2. have at least one uppercase letter
-    // 3. have at least one lowercase letter
-    // 4. have at least one digit
-    // 5. have at least one special character
+    Person p2;
+    p2.name = "Bob";
+    p2.age = 40;
 
-    bool validPassword = true;
-    if (password.length() != 8)
-    {
-        validPassword = false;
-        cout << "Password must be 8 characters long" << endl;
-    }
+    print(&p1);
+    print(&p2);
 
-    bool hasUpperCase = false;
-    bool hasLowerCase = false;
-    bool hasDigit = false;
-    bool hasSpecialCharacter = false;
-
-    for (int i = 0; i < password.length(); i++)
-    {
-        if (password[i] >= 'A' && password[i] <= 'Z')
-        {
-            hasUpperCase = true;
-        }
-        else if (password[i] >= 'a' && password[i] <= 'z')
-        {
-            hasLowerCase = true;
-        }
-        else if (password[i] >= '0' && password[i] <= '9')
-        {
-            hasDigit = true;
-        }
-        else
-        {
-            hasSpecialCharacter = true;
-        }
-    }
-
-    if (!hasUpperCase)
-    {
-        validPassword = false;
-        cout << "Password must have at least one uppercase letter" << endl;
-    }
-    if (!hasLowerCase)
-    {
-        validPassword = false;
-        cout << "Password must have at least one lowercase letter" << endl;
-    }
-    if (!hasDigit)
-    {
-        validPassword = false;
-        cout << "Password must have at least one digit" << endl;
-    }
-    if (!hasSpecialCharacter)
-    {
-        validPassword = false;
-        cout << "Password must have at least one special character" << endl;
-    }
-
-    if (validPassword)
-    {
-        cout << "Password is valid" << endl;
-
-        return 0;
-    } else
-    {
-        cout << "Password is invalid" << endl;
-        cout << "Please try again" << endl;
-
-        return 1;
-    }
+    return 0;
 }
