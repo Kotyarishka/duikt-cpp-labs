@@ -1,32 +1,49 @@
 #include <iostream>
+#include <set>
 #include <string>
 
 using namespace std;
-
-class Person
+class Square
 {
+private:
+    double side;
+    double area;
+    // Your code here
+
 public:
-    string name;
-    int age;
+    Square(double side)
+    {
+        this -> side = side;
+        this -> area = side * side;
+    };
+
+    void setSide(double side)
+    {
+        this->side = side;
+        this->area = side * side;
+    };
+    double getSide()
+    {
+        return this->side;
+    };
+
+    double getArea()
+    {
+        return this->area;
+    }
 };
 
-void print(Person* p)
+void print(Square* square)
 {
-    cout << p->name << " is " << p->age << " years old." << endl;
+    cout << "Square: side=" << square->getSide() << " area=" << square->getArea() << endl;
 }
-
 int main()
 {
-    Person p1;
-    p1.name = "Alice";
-    p1.age = 30;
-
-    Person p2;
-    p2.name = "Bob";
-    p2.age = 40;
-
-    print(&p1);
-    print(&p2);
-
+    Square s(4);
+    print(&s);
+    s.setSide(2);
+    print(&s);
+    s.setSide(-33.0);
+    print(&s);
     return 0;
 }
